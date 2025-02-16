@@ -1,0 +1,87 @@
+select * from trip_details;
+select* from trips;
+-- total trips
+select count( distinct(tripid) )from trip_details;
+--- total no of drivers
+select count(distinct(driverid))  as total_no_of_drivers from trips;
+--total earnings
+select sum(fare) as total_earning from trips;
+--total no of complete trips
+select count(end_ride) from trip_details
+where end_ride='1';
+-- total no of searches
+select count(searches) from trip_details
+where searches='1';
+--total no of searches which got estimate
+select count(searches_got_estimate) from trip_details
+where searches_got_estimate='1';
+--total search of quotes or driver
+select count(searches_for_quotes) from trip_details
+where searches_for_quotes='1';
+--- who get drivers
+select count(searches_got_quotes) from trip_details
+where searches_got_quotes='1';
+------------------------------ no of trips  drivers not canceled
+select count(driver_not_cancelled) from trip_details
+where driver_not_cancelled='1';
+select count(*) - sum(driver_not_cancelled)searches from trip_details;
+--otp entered
+select count(otp_entered) from trip_details
+where otp_entered='1';
+--- who end the ride
+select count(end_ride) from trip_details
+where end_ride='1';
+-- avg distance per trip
+select round(avg(distance),2)from trips;
+-- avg fare per trip
+select round(avg(fare),2)from trips;
+--sum of distance
+select sum(distance) from trips;
+--which is the most used payment method
+--262 faremethod 4
+select* from payment;
+select * from trips;
+select faremethod,count(distinct(faremethod)) from trips
+group by count(distinct (faremethod);
+select* f
+select distinct(faremethod) as  s2 , count(tripid)  as s3 from trips
+group by faremethod
+order by s3 desc;
+--- highest fair done (here highest fare is 1500 which is done by credit card)
+select * from trips
+order by fare desc;
+-- sum of amount by faremethod
+select faremethod,sum(fare) from trips
+group by faremethod
+order by sum(fare) desc;
+
+--- which two location has the most no of trips
+select loc_from,loc_to ,count(loc_to) from trips
+group by loc_from,loc_to
+order by count(loc_to) desc;
+---top 5 earning drivers
+select driverid ,sum(fare) from trips
+group by driverid
+order by sum(fare) desc;
+-- which duration had no of trips
+select duration,count(distinct tripid) from trips
+group by duration
+order by count(distinct tripid) desc;
+--- which driver,customer pair had more orders
+select * from trips;
+select driverid ,custid ,count(distinct tripid) from trips
+group by driverid,custid
+order by count(distinct tripid) desc;
+-- SERACH to estimate rate
+select sum(searches_got_estimate)*100/sum(searches) from trip_details;
+--estimate to search for quotes rates
+select sum(searches_for_quotes)*100/sum(searches) from trip_details;
+select* from trip_details;
+select sum(searches_got_quotes)*100/sum(searches) from trip_details;
+select sum(customer_not_cancelled)*100/sum(searches) from trip_details;
+-- which area got highest trips in which duration
+select duration ,loc_from,count(distinct tripid) from trips
+group by duration ,loc_from
+order by count(distinct tripid) desc;
+--which area got the highest fares,cancellatin trip
+select* from trips;
